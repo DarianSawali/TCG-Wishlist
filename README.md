@@ -1,50 +1,56 @@
-# pokelist
+# PokeCell
 
-A private Japanese Pokémon TCG wishlist and collection tracker built with Next.js, PokeWallet, and Supabase.
+PokeCell is a personal Japanese Pokémon TCG wishlist and collection tracker. Browse Japanese sets, search for cards, and keep separate counts for cards you want and cards you own.
 
-## Supabase setup
+## Features
 
-1. Create a new project at [Supabase](https://supabase.com/dashboard).
-2. Open **SQL Editor**, create a query, paste [`supabase/schema.sql`](supabase/schema.sql), and run it. This creates the cloud collection table and row-level security policies.
-   The schema also explicitly grants table access to signed-in users; RLS still limits each user to their own row, so **Automatically expose new tables** can remain disabled.
-3. Open **Project Settings → API** and copy the Project URL and publishable key.
-4. Copy `.env.example` to `.env` and set:
+- Japanese card and set catalogue
+- Wishlist and owned collection tracking
+- Google and email/password authentication
+- Private cloud storage with Supabase and row-level security
+- USD, CAD, and JPY price display
+- Rarity filtering and card/set search
+- Dark theme and responsive mobile navigation
 
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
-   ```
+## Built with
 
-   Keep the existing `POKEWALLET_API_KEY` and `JUSTTCG_API_KEY` values.
-5. In **Authentication → Providers → Email**, leave Email enabled. For the simplest personal setup, turn off **Confirm email**; otherwise new users must follow the confirmation email before signing in.
-6. Restart the development server and create a fresh account:
+- Next.js and React
+- Supabase Auth and PostgreSQL
+- PokeWallet, TCGdex, and JustTCG
+- ExchangeRate-API
 
-   ```bash
-   npm run dev
-   ```
+## Local setup
 
-The old `.data/accounts.json` file is no longer read. You can delete `.data` after confirming Supabase works.
+Install dependencies:
 
-## Vercel deployment
+```bash
+npm install
+```
 
-1. Import this repository into Vercel.
-2. Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `POKEWALLET_API_KEY`, `JUSTTCG_API_KEY`, and `EXCHANGERATE_API_KEY` under **Project Settings → Environment Variables**.
-3. Deploy. In Supabase, add the Vercel production URL under **Authentication → URL Configuration → Site URL**. Add preview URLs as redirect URLs if you later enable email confirmation or Google sign-in.
+Copy `.env.example` to `.env` and add your API credentials:
 
-No Supabase service-role key is used or needed. Browser-facing requests use the publishable key, and database access is restricted by row-level security to the signed-in user.
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+POKEWALLET_API_KEY=
+JUSTTCG_API_KEY=
+EXCHANGERATE_API_KEY=
+```
 
-## Google sign-in setup
+Create a Supabase project, then run [`supabase/schema.sql`](supabase/schema.sql) in its SQL Editor.
 
-1. In **Supabase → Authentication → Providers → Google**, copy the callback URL shown there. It looks like `https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback`.
-2. In the [Google Auth Platform](https://console.cloud.google.com/auth/overview), configure the consent screen, then create an OAuth client with application type **Web application**.
-3. Add these **Authorized JavaScript origins**:
-   - `http://localhost:3000`
-   - Your production Vercel origin later, such as `https://your-app.vercel.app`
-4. Under **Authorized redirect URIs**, add the Supabase callback URL from step 1. This is the Supabase URL, not this app's `/auth/callback` URL.
-5. Copy Google's Client ID and Client Secret into the Supabase Google provider settings, enable the provider, and save.
-6. In **Supabase → Authentication → URL Configuration** set:
-   - Site URL: `http://localhost:3000` while developing
-   - Redirect URLs: `http://localhost:3000/auth/callback`
-   - Add `https://your-app.vercel.app/auth/callback` when deploying.
+Start the development server:
 
-Google sign-in and email/password sign-in both use the same `collections` table. Supabase's authenticated user ID is the owner key, so each Google account gets a separate private list.
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Deployment
+
+The app is ready to deploy with Vercel. Add the same environment variables to the Vercel project and configure the production URL in Supabase and Google OAuth.
+
+## Status
+
+PokeCell is a personal project under active development.
