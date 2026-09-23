@@ -27,15 +27,7 @@ Install dependencies:
 npm install
 ```
 
-Copy `.env.example` to `.env` and add your API credentials:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
-POKEWALLET_API_KEY=
-JUSTTCG_API_KEY=
-EXCHANGERATE_API_KEY=
-```
+Create a local `.env` file and add the required private service credentials.
 
 Create a Supabase project, then run [`supabase/schema.sql`](supabase/schema.sql) in its SQL Editor.
 
@@ -49,7 +41,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Deployment
 
-The app is ready to deploy with Vercel. Add the same environment variables to the Vercel project and configure the production URL in Supabase and Google OAuth.
+The app is ready to deploy with Vercel. Configure the required private credentials in the Vercel project and add the production URL to Supabase and Google OAuth.
 
 ## Status
 
