@@ -3,9 +3,8 @@
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { CurrencyControl } from "@/app/components/currency-control";
+import { CardImagePreview } from "@/app/components/card-image-preview";
 import { useCurrency } from "@/lib/use-currency";
-
-/* eslint-disable @next/next/no-img-element -- catalogue images use dynamic provider URLs */
 
 type ResultCard = {
   id: string;
@@ -258,7 +257,10 @@ export default function SearchClient({
             <article key={card.id}>
               <div className="search-page-image">
                 {card.image ? (
-                  <img src={card.image} alt={`${card.name} Japanese card`} />
+                  <CardImagePreview
+                    src={card.image}
+                    alt={`${card.name} Japanese card`}
+                  />
                 ) : (
                   <span>
                     IMAGE

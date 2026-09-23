@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CurrencyControl } from "@/app/components/currency-control";
+import { CardImagePreview } from "@/app/components/card-image-preview";
 import { useCurrency } from "@/lib/use-currency";
 
 type Card = {
@@ -596,13 +597,15 @@ export default function Home() {
               </div>
             </section>
 
-            {/* eslint-disable @next/next/no-img-element -- supports user-provided remote image URLs */}
             <section className="card-grid">
               {visible.map((card) => (
                 <article className="card" key={card.id}>
                   <div className="card-image">
                     {card.image ? (
-                      <img src={card.image} alt={`${card.name} trading card`} />
+                      <CardImagePreview
+                        src={card.image}
+                        alt={`${card.name} trading card`}
+                      />
                     ) : (
                       <div className="placeholder">
                         <span>ポケモン</span>
@@ -724,7 +727,6 @@ export default function Home() {
                 </div>
               )}
             </section>
-            {/* eslint-enable @next/next/no-img-element */}
             <footer>
               <span>Made for your collection</span>
               <span>Prices are personal estimates · Last saved just now</span>
@@ -800,7 +802,6 @@ export default function Home() {
   );
 }
 
-/* eslint-disable @next/next/no-img-element -- TCGdex returns dynamic remote asset URLs */
 function CatalogFinder({
   existingIds,
   onAdd,
@@ -925,7 +926,12 @@ function CatalogFinder({
               return (
                 <article className="catalog-result" key={card.id}>
                   <div className="catalog-thumb">
-                    {card.image && <img src={card.image} alt="" />}
+                    {card.image && (
+                      <CardImagePreview
+                        src={card.image}
+                        alt={`${card.name} Japanese card`}
+                      />
+                    )}
                   </div>
                   <div>
                     <h3>{card.japanese}</h3>
@@ -964,7 +970,6 @@ function CatalogFinder({
     </div>
   );
 }
-/* eslint-enable @next/next/no-img-element */
 
 /* eslint-disable @next/next/no-img-element -- TCGdex returns dynamic Japanese card and set assets */
 function SetBrowser({
@@ -1188,20 +1193,10 @@ function SetBrowser({
                     <article key={card.id}>
                       <div className="set-card-image">
                         {card.image || card.fallbackImage ? (
-                          <img
-                            src={card.image || card.fallbackImage}
+                          <CardImagePreview
+                            src={(card.image || card.fallbackImage)!}
+                            fallbackSrc={card.fallbackImage}
                             alt={`${englishName} Japanese card`}
-                            onError={(event) => {
-                              if (
-                                !card.fallbackImage ||
-                                event.currentTarget.src.endsWith(
-                                  card.fallbackImage,
-                                )
-                              )
-                                return;
-                              event.currentTarget.onerror = null;
-                              event.currentTarget.src = card.fallbackImage;
-                            }}
                           />
                         ) : (
                           <div className="mini-placeholder">
@@ -1421,7 +1416,10 @@ function GlobalCardSearch({
                 <article key={card.id}>
                   <div className="global-result-image">
                     {card.image ? (
-                      <img src={card.image} alt="" />
+                      <CardImagePreview
+                        src={card.image}
+                        alt={`${card.name} Japanese card`}
+                      />
                     ) : (
                       <span>NO IMAGE</span>
                     )}
